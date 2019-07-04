@@ -13,13 +13,13 @@
  - yarn build
 
 4. 배포하기
- 1. package.json add "homepage": "https:\\paktan.github.io/FirstDriven" 추가
- 2. yarn build
- 3. yarn add --dev gh-pages
- 4. package.json add 
+ - package.json add "homepage": "https:\\paktan.github.io/FirstDriven" 추가
+ - yarn build
+ - yarn add --dev gh-pages
+ - package.json add 
     "scripts": {
       // ...
       "predeploy": "yarn build",
       "deploy": "gh-pages -d build"
     }
- 5. yarn deploy
+ - yarn deploy
