@@ -9,22 +9,25 @@ class App extends Component {
   }
 
   componentDidMount(){
-    this._getMovies()
+    this._getMovies();
   }
 
   _getMovies = async () => {
-    const movies = await this._callMovies()
-    console.log(movies)
+    const movies = await this._callMovies();
     this.setState({
       movies
     })
   }
 
-  _callMovies = () => {
-    return fetch('https://yts.lt/api/v2/list_movies.json?sort_by=rating')
-    .then(patato => patato.json())
-    .then(json => json.data.movies)
-    .catch(err => console.log(err))
+  _callMovies = async () => {
+    try {
+      const patato = await fetch('https://yts.lt/api/v2/list_movies.json?sort_by=rating');
+      const json = await patato.json();
+      return json.data.movies;
+    }
+    catch (err) {
+      return console.log(err);
+    }
   }
 
   _renderMovie = () => {
@@ -34,7 +37,7 @@ class App extends Component {
       genres={movie.genres}
       synopsis={movie.synopsis}
       key={movie.id}/>
-    })
+    });
 
     return movies
   }
