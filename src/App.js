@@ -2,6 +2,13 @@ import React, {Component} from  'react';
 import logo from './logo.svg';
 import './App.css';
 import Movie from './Movie';
+import AntCardItem from './AntCardItem';
+
+import {ReduceEvent} from './reducer'
+
+import {createStore} from 'redux'
+
+let eventReducer = createStore(ReduceEvent)
 
 
 class App extends Component {
@@ -10,10 +17,15 @@ class App extends Component {
 
   componentDidMount(){
     this._getMovies();
+
+    eventReducer.subscribe(() => {
+      console.log("abcdefg")
+    })
   }
 
   _getMovies = async () => {
     const movies = await this._callMovies();
+    eventReducer.dispatch({type:"data_change", data:movies})
     this.setState({
       movies
     })
@@ -31,19 +43,23 @@ class App extends Component {
   }
 
   _renderMovie = () => {
-    const movies = this.state.movies.map(movie => {
-      return <Movie title={movie.title} 
-      poster={movie.medium_cover_image} 
-      genres={movie.genres}
-      synopsis={movie.synopsis}
-      key={movie.id}/>
-    });
+    // let movies = this.state.movies.map(movie => {
+    //   return <AntCardItem title={movie.title} 
+    //   poster={movie.medium_cover_image} 
+    //   alt={movie.title}
+    //   synopsis={movie.synopsis}
+    //   genres={movie.genres}
+    //   er={eventReducer}
+    //   key={movie.id}/>
+    // });
+
+    const movies = <AntCardItem er={eventReducer}/>
 
     return movies
   }
 
   render(){
-    const {movies} = this.state;
+    const movies = this.state;
     return (
       <div className={movies ? "App" : "App-loading"}>
         {movies ? this._renderMovie() : "Loading"}
